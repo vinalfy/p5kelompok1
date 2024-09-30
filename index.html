@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelanggaran Siswa</title>
+    <link rel="stylesheet" href="style.css"> <!-- Link ke file CSS -->
+</head>
+<body>
+
+    <div class="container">
+        <img src="https://cdn-icons-png.flaticon.com/512/564/564619.png" alt="Ikon Peringatan" />
+        <h2>Input Data Siswa</h2>
+        
+        <!-- Input untuk Nama Siswa -->
+        <div class="input-section">
+            <input type="text" id="namaSiswa" placeholder="Masukkan Nama Siswa" />
+        </div>
+
+        <!-- Input untuk Kelas Siswa -->
+        <div class="input-section">
+            <input type="text" id="kelasSiswa" placeholder="Masukkan Kelas Siswa" />
+        </div>
+        
+        <button onclick="generatePelanggaran()">Lihat Pelanggaran</button>
+        
+        <h3 id="hasilNama"></h3>
+        <p id="hasilPelanggaran"></p>
+        <ul id="listPelanggaran"></ul>
+        <p id="totalPoin" class="total"></p>
+
+        <p class="note">Website ini untuk Tugas P5 9I Kelompok 1</p>
+    </div>
+
+    <script src="script.js"></script> <!-- Link ke file JavaScript -->
+
+</body>
+</html>

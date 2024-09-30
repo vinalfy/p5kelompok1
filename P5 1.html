@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelanggaran Siswa</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 8px;
+            background-color: #f9f9f9;
+            margin-bottom: 5px;
+            border-left: 5px solid #ff6b6b;
+            text-align: left;
+        }
+        .total {
+            font-weight: bold;
+            color: #d9534f;
+        }
+        .input-section {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        /* Desain baru untuk input */
+        input[type="text"] {
+            padding: 12px;
+            width: 70%;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            font-size: 16px;
+            transition: 0.3s ease;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+            outline: none;
+            background-color: #fafafa;
+        }
+        input[type="text"]::placeholder {
+            color: #999;
+            font-size: 14px;
+        }
+        input[type="text"]:focus {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 10px rgba(255,107,107,0.3);
+            background-color: #fff;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s ease;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #ff4b4b;
+        }
+        img {
+            width: 80px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        /* Note abu-abu samar */
+        .note {
+            font-size: 12px;
+            color: #888;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcx7m8h3tBHk0XOMs_khuRUoEyjFOsB-Q1rQ&usqp=CAU" alt="Ikon SMP 5" />
+        <h2>Masukkan Data Siswa</h2>
+        
+        <!-- Input untuk Nama Siswa -->
+        <div class="input-section">
+            <input type="text" id="namaSiswa" placeholder="Masukkan Nama Siswa" />
+        </div>
+
+        <!-- Input untuk Kelas Siswa -->
+        <div class="input-section">
+            <input type="text" id="kelasSiswa" placeholder="Masukkan Kelas Siswa" />
+        </div>
+        
+        <button onclick="generatePelanggaran()">Lihat Pelanggaran</button>
+        
+        <h3 id="hasilNama"></h3>
+        <p id="hasilPelanggaran"></p>
+        <ul id="listPelanggaran"></ul>
+        <p id="totalPoin" class="total"></p>
+
+        <p class="note">Website ini untuk Tugas P5 9I Kelompok 1</p>
+    </div>
+
+    <script>
+        // Daftar pelanggaran dan poinnya
+        const pelanggaran = [
+            { nama: 'Sepatu Beda Warna', poin: 5 },
+            { nama: 'Ngomong Kasar', poin: 5 },
+            { nama: 'Memakai Aksesoris', poin: 15 },
+            { nama: 'Makan Saat Jam Pelajaran', poin: 5 },
+            { nama: 'Pesan GoFood', poin: 5 },
+            { nama: 'Telat Datang', poin: 10 },
+            { nama: 'Merusak Fasilitas', poin: 20 },
+            { nama: 'Ke Kantin Saat Jam Pelajaran', poin: 15 },
+            { nama: 'Bolos Pelajaran', poin: 10 },
+            { nama: 'Bolos Upacara', poin: 15 }
+        ];
+
+        const MAX_POIN = 85; // Batas maksimal poin
+
+        // Fungsi untuk memilih pelanggaran secara acak dengan batasan 3-6 pelanggaran
+        function getRandomPelanggaran() {
+            const pelanggaranDipilih = [];
+            let totalPoin = 0;
+
+            // Tentukan jumlah pelanggaran yang akan dipilih, antara 3 hingga 6
+            const jumlahPelanggaran = Math.floor(Math.random() * 4) + 3;
+
+            while (pelanggaranDipilih.length < jumlahPelanggaran) {
+                const index = Math.floor(Math.random() * pelanggaran.length);
+                const pelanggaranTerpilih = pelanggaran[index];
+
+                // Cek apakah pelanggaran sudah ada di daftar
+                if (!pelanggaranDipilih.includes(pelanggaranTerpilih)) {
+                    if (totalPoin + pelanggaranTerpilih.poin <= MAX_POIN) {
+                        pelanggaranDipilih.push(pelanggaranTerpilih);
+                        totalPoin += pelanggaranTerpilih.poin;
+                    }
+                }
+            }
+
+            return pelanggaranDipilih;
+        }
+
+        // Fungsi untuk menampilkan pelanggaran dan menghitung total poin
+        function generatePelanggaran() {
+            const namaSiswa = document.getElementById("namaSiswa").value;
+            const kelasSiswa = document.getElementById("kelasSiswa").value;
+            
+            if (namaSiswa === "" || kelasSiswa === "") {
+                alert("Masukkan nama dan kelas siswa terlebih dahulu!");
+                return;
+            }
+
+            const hasilNama = document.getElementById("hasilNama");
+            hasilNama.textContent = `${namaSiswa} dari kelas ${kelasSiswa} mendapatkan total poin pelanggaran:`;
+
+            const pelanggaranDipilih = getRandomPelanggaran();
+            const listPelanggaran = document.getElementById("listPelanggaran");
+            listPelanggaran.innerHTML = ""; // Kosongkan list sebelumnya
+
+            let totalPoin = 0;
+
+            // Tambahkan pelanggaran ke dalam list
+            pelanggaranDipilih.forEach(pelanggaran => {
+                const li = document.createElement("li");
+                li.textContent = `${pelanggaran.nama} - Poin ${pelanggaran.poin}`;
+                listPelanggaran.appendChild(li);
+
+                totalPoin += pelanggaran.poin;
+            });
+
+            // Tampilkan total poin
+            const totalPoinElement = document.getElementById("totalPoin");
+            totalPoinElement.textContent = "Total Poin: " + totalPoin + " / " + MAX_POIN;
+        }
+    </script>
+
+</body>
+</html>
